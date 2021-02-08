@@ -45,10 +45,11 @@ scripts_check
 
 # Defaults
 APPNAME="${APPNAME:-template}"
-APPDIR="${APPDIR:-$SHARE/CasjaysDev/systemmgr}/$APPNAME"
+APPDIR="/usr/local/etc/${APPNAME}"
+INSTDIR="${INSTDIR}"
 REPO="${SYSTEMMGRREPO:-https://github.com/systemmgr}/${APPNAME}"
 REPORAW="${REPORAW:-$REPO/raw}"
-APPVERSION="$(curl -LSs $REPORAW/master/version.txt)"
+APPVERSION="$(__appversion "$REPORAW/master/version.txt")"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -109,14 +110,17 @@ ensure_perms
 
 # Main progam
 
-if [ -d "$APPDIR/.git" ]; then
+if [ -d "$APPDIR" ]; then
+  execute "backupapp $APPDIR $APPNAME" "Backing up $APPDIR"
+fi
+
+if [ -d "$INSTDIR/.git" ]; then
   execute \
-    "git_update $APPDIR" \
+    "git_update $INSTDIR" \
     "Updating $APPNAME configurations"
 else
   execute \
-    "backupapp && \
-        git_clone -q $REPO/$APPNAME $APPDIR" \
+    "git_clone $REPO/$APPNAME $INSTDIR" \
     "Installing $APPNAME configurations"
 fi
 
