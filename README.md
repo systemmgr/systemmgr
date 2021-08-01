@@ -5,7 +5,7 @@ Template is a shell designed for interactive use
 Automatic install/update:
 
 ```shell
-bash -c "$(curl -LSs https://github.com/systemmgr/Template/raw/master/install.sh)"
+bash -c "$(curl -LSs https://github.com/systemmgr/Template/raw/main/install.sh)"
 ```
 
 Manual install:
